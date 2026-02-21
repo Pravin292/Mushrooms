@@ -27,10 +27,16 @@ h1, h2, h3 { color: #38bdf8 !important; font-weight: 700; }
 """, unsafe_allow_html=True)
 
 # ---------------- Load Model ----------------
-model, feature_columns, metrics = load_model_and_metrics()
+try:
+    model, feature_columns, metrics = load_model_and_metrics()
+except Exception as e:
+    st.error(f"Fungi Engine Crash: {e}")
+    import traceback
+    st.code(traceback.format_exc())
+    st.stop()
 
 if model is None:
-    st.error("Model architectures not populated. Please execute `python model_training.py` within the root directory.")
+    st.warning("🍄 Mushroom models not identified. Please run `python model_training.py` first.")
     st.stop()
 
 # ---------------- Sidebar UX ----------------
